@@ -10,7 +10,7 @@ exports.getUser = (query) => {
 };
 
 exports.createUser = (userObj) => {
-    var newUser = new User({
+    const newUser = new User({
         username: userObj.username,
         password: userObj.password
     });
@@ -23,7 +23,7 @@ exports.createUser = (userObj) => {
 };
 
 exports.updateUser = (userObj) => {
-    var oldUser = User.findById(userObj.id);
+    const oldUser = User.findById(userObj.id);
     if (!oldUser) return false;
 
     oldUser.username = userObj.username;
@@ -39,7 +39,7 @@ exports.updateUser = (userObj) => {
 
 exports.deleteUser = (id) => {
     try {
-        var deleted = await User.remove({_id: id});
+        const deleted = await User.remove({_id: id});
         if (deleted.result.n === 0) {
             error('User object could not be deleted');
         }

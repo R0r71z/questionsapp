@@ -2,10 +2,12 @@ const Question = require('../models/Question');
 const error = require('../helper').error;
 
 exports.getQuestions = async (query, page, limit) => {
-    var options = {
+    const options = {
         page,
         limit
     };
+
+    query.deleted = false;
 
     try {
         return await Question.paginate(query, options)
@@ -15,7 +17,7 @@ exports.getQuestions = async (query, page, limit) => {
 };
 
 exports.createQuestion = async (questionObject) => {
-    var newQuestion = new Question({
+    const newQuestion = new Question({
         title: questionObject.title,
         description: questionObject.description,
     });
@@ -29,7 +31,7 @@ exports.createQuestion = async (questionObject) => {
 
 exports.updateQuestion = async (questionObject) => {
     try {
-        var oldQuestion = await Question.findById(questionObject.id);
+        const oldQuestion = await Question.findById(questionObject.id);
     } catch(e) {
         error(`Question ID: ${questionObject.id} was not found.`);
     }
