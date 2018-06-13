@@ -1,9 +1,9 @@
 const User = require('../models/User');
 const error = require('../helper').error;
 
-exports.getUser = (query) => {
+exports.getUser = async (query) => {
     try {
-        return await User.find(query);
+        return await User.findOne(query);
     } catch(e) {
         error('Failed to fetch User.');
     }
@@ -12,7 +12,8 @@ exports.getUser = (query) => {
 exports.createUser = (userObj) => {
     const newUser = new User({
         username: userObj.username,
-        password: userObj.password
+        password: userObj.password,
+        session_id: userObj.session_id
     });
 
     try {
@@ -37,14 +38,14 @@ exports.updateUser = (userObj) => {
     }
 }
 
-exports.deleteUser = (id) => {
+exports.deleteUser = async (id) => {
     try {
         const deleted = await User.remove({_id: id});
-        if (deleted.result.n === 0) {
-            error('User object could not be deleted');
+        if (deleted.n === 0) {
+            return error('User object could not be deleted');
         }
         return deleted;
     } catch(e) {
-        error('Failed to delete User');
+        error(e.message);
     }
 }
