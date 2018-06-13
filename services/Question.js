@@ -1,5 +1,5 @@
 const Question = require('../models/Question');
-const error = require('../helper').error;
+const {error} = require('../helper');
 
 exports.getQuestions = async (query, page, limit) => {
     const options = {
@@ -30,12 +30,7 @@ exports.createQuestion = async (questionObject) => {
 };
 
 exports.updateQuestion = async (questionObject) => {
-    try {
-        const oldQuestion = await Question.findById(questionObject.id);
-    } catch(e) {
-        error(`Question ID: ${questionObject.id} was not found.`);
-    }
-    
+    const oldQuestion = await Question.findById(questionObject.id);
     if (!oldQuestion) return false;
 
     if (questionObject.title) oldQuestion.title = questionObject.title;

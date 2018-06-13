@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const error = require('../helper').error;
+const {error} = require('../helper');
 
 exports.getUser = async (query) => {
     try {
@@ -9,7 +9,7 @@ exports.getUser = async (query) => {
     }
 };
 
-exports.createUser = (userObj) => {
+exports.createUser = async (userObj) => {
     const newUser = new User({
         username: userObj.username,
         password: userObj.password,
@@ -23,7 +23,7 @@ exports.createUser = (userObj) => {
     }
 };
 
-exports.updateUser = (userObj) => {
+exports.updateUser = async (userObj) => {
     const oldUser = User.findById(userObj.id);
     if (!oldUser) return false;
 
