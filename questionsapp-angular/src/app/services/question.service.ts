@@ -1,4 +1,5 @@
 import Question from '../models/question.model';
+import Answer from '../models/answer.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map } from "rxjs/operators";
 import {Response} from '@angular/http';
@@ -28,13 +29,23 @@ export class QuestionService {
   }
 
   editQuestion(question: Question) {
-      console.log(question)
       return this.http.put(this.questionUrl, question);
   }
 
   deleteQuestion(id: string) :any {
       return this.http.delete(`${this.questionUrl}/${id}`)
       .pipe(map(res => {
+          return res;
+      }));
+  }
+
+  addAnswer(questionId: string, answer: Answer): Observable<any> {
+    return this.http.post(`${this.questionUrl}/answer`, answer);
+  }
+
+  removeAnswer(answerId: string): any {
+      return this.http.delete(`${this.questionUrl}/answer/${answerId}`)
+      .pipe(map(res=>{
           return res;
       }));
   }

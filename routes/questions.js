@@ -7,4 +7,7 @@ router.post('/', questionsController.createQuestion);
 router.put('/', questionsController.updateQuestion);
 router.delete('/:id', questionsController.removeQuestion);
 
+router.post('/answer', questionsController.addAnswer);
+router.delete('/answer/:id', questionsController.removeAnswer);
+
 module.exports = router;
