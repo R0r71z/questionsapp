@@ -1,0 +1,11 @@
+.header {
+    margin: 3%;
+    display: flex;
+    align-content: center;
+};
+
+.header div {
+    flex: 1;
+    display:flex;
+    justify-content: center;
+}

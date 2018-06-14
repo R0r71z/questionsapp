@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function(next) {
-    if (this.isModified("password")) {
+    if (!this.isModified("password")) {
         return next();
     }
 
@@ -33,14 +33,6 @@ userSchema.methods.passwordIsValid = async function(password) {
        throw err;
    }
 };
-
-userSchema.methods.setSessionId = function(newSessionId) {
-    try {
-        return this.session_id = newSessionId;
-    } catch(e) {
-        throw e;
-    }
-}
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

@@ -11,12 +11,18 @@ import {QuestionService} from './services/question.service';
 
 import {routing} from './app.routing';
 import { HomeComponent } from './home/home.component';
+import { LayoutComponent } from './_layout/app_layout/layout.component';
+import { UserService } from './services/user.service';
+import { CookieService } from 'ngx-cookie-service';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    HomeComponent
+    HomeComponent,
+    LayoutComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +31,9 @@ import { HomeComponent } from './home/home.component';
     routing
   ],
   providers: [
-    QuestionService
+    QuestionService,
+    UserService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,2 +1,21 @@
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import '../node_modules/font-awesome/css/font-awesome.css';
+
+body {
+    transition: filter 0.1s;
+}
+
+body.loading {
+    filter: blur(2px);
+}
+
+.fa-spin {
+    position: absolute;
+    left: 50%;
+    top: 100px;
+    z-index: 55;
+}
+
+.fa-spin.d-none {
+    display: none;
+}
