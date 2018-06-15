@@ -6,7 +6,8 @@ const questionSchema = mongoose.Schema({
     description: {type: String, default: ''},
     updated_at: {type: Date, default: Date.now},
     active: {type: Boolean, default: true},
-    deleted: {type: Boolean, default: false}
+    deleted: {type: Boolean, default: false},
+    answers: {type: Array, default: []}
 });
 
 questionSchema.plugin(mongoosePaginate);

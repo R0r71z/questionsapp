@@ -5,7 +5,7 @@ exports.getQuestions = async (req, res, next) => {
     const limit = req.query.limit ? req.query.limit : 10; 
 
     try {
-        const questions = await questionService.getQuestions({}, page, limit);
+        let questions = await questionService.getQuestions({}, page, limit);
         return res.status(200).json({status: 200, data: questions});
     } catch(e) {
         return res.status(400).json({status: 400, message: e.message});
@@ -27,7 +27,6 @@ exports.createQuestion = async (req, res, next) => {
 };
 
 exports.updateQuestion = async (req, res, next) => {
-    console.log(req.body);
     if(!req.body._id) return res.status(400).json({status: 400, message: "Id must be present"});
 
     const id = req.body._id;
@@ -61,4 +60,15 @@ exports.removeQuestion = async (req, res, next) => {
     } catch (e) {
         return res.status(400).json({status: 400, message: e.message});
     }
+}
+
+exports.addAnswer = async (req, res, next) => {
+    console.log(req.body);
+    return res.status(200).json({status: 200, data: {}});
+}
+
+exports.removeAnswer = async (req, res, next) => {
+    const id = req.params.id;
+    console.log(id);
+    return res.status(200).json({status: 200});
 }

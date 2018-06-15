@@ -1,5 +1,16 @@
 const userService = require('../services/User');
 
+exports.getUser = async (req, res, next) => {
+    const query = req.query;
+    if (!Object.keys(query).length) return res.status(404).json({status: 404, message: 'Invalid request'});
+    try {
+        const user = await userService.getUser(query);
+        return res.status(200).json({status: 200, data: user});
+    } catch(e) {
+        return res.status(404).json({status: 404, message: e.message});
+    }
+}
+
 exports.createUser = async (req, res, next) => {
     const userObj = {
         username: req.body.username,
@@ -23,8 +34,7 @@ exports.loginUser = async (req, res, next) => {
 
     try {
         if (await loggingUser.passwordIsValid(req.body.password)) {
-            loggingUser.setSessionId(req.body.session_id);
-            await loggingUser.update({logged_in: true});
+            await loggingUser.update({logged_in: true, session_id: req.body.session_id});
             return res.status(200).json({status: 200, message: `${username} logged succesfully`});
         } else {
             return res.status(404).json({status: 404, message: `Invalid password for ${username}`});
@@ -39,7 +49,7 @@ exports.logoutUser = async (req, res, next) => {
     const loggingUser = await userService.getUser({username});
 
     try {
-        loggingUser.setSessionId = '';
+        loggingUser.session_id = '';
         loggingUser.logged_in = false;
         await loggingUser.save();
 
