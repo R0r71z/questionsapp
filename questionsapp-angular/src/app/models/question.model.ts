@@ -1,3 +1,5 @@
+import Answer from './answer.model';
+
 class Question {
     _id:string;
     title:string;
@@ -5,6 +7,7 @@ class Question {
     updated:Date;
     active:boolean;
     deleted:boolean;
+    answers: Answer[];
 
     constructor () {
         this.title = ""
@@ -12,6 +15,7 @@ class Question {
         this.updated = new Date()
         this.active = true
         this.deleted = false
+        this.answers = [];
     }
 }
 

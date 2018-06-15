@@ -1,17 +1,17 @@
 <div class="container">
     <div class="row">
         <div class="col-md-offset-5 col-md-3">
-        <form class="form-login">
+        <div class="form-login">
             <h4>Admin login</h4>
-            <input type="text" id="userName" class="form-control input-sm chat-input" placeholder="username" (keypress)="submitLogin($event)" required/>
-            <input type="password" id="userPassword" class="form-control input-sm chat-input" placeholder="password" (keypress)="submitLogin($event)" required/>
+            <input type="text" id="userName" class="form-control input-sm chat-input" placeholder="username" (keypress)="submitLogin($event)"/>
+            <input type="password" id="userPassword" class="form-control input-sm chat-input" placeholder="password" (keypress)="submitLogin($event)"/>
             
             <div class="wrapper">
             <span class="group-btn">     
-                <a href="#" class="btn btn-primary btn-md" (click)="submitLogin($event)">login <i class="fa fa-sign-in"></i></a>
+                <a href="#" class="btn btn-primary btn-md" id="submit" (click)="submitLogin($event)">login <i class="fa fa-sign-in"></i></a>
             </span>
             </div>
-        </form>
+        </div>
         
         </div>
     </div>

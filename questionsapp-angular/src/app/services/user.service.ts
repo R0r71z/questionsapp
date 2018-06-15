@@ -4,20 +4,24 @@ import { map } from "rxjs/operators";
 import {Response} from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class UserService {
     api_url = 'http://localhost:3000/users';
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private cookieService: CookieService
     ) {}
 
     createUser(user: User): Observable<any> {
+        this.cookieService.set('session_id', user['session_id']);
         return this.http.post(`${this.api_url}/signup`, user);
     }
 
     loginUser(user: Object): Observable<any> {
+        this.cookieService.set('session_id', user['session_id']);
         return this.http.post(`${this.api_url}/login`, user);
     }
 

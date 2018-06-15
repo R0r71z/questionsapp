@@ -34,8 +34,7 @@ exports.loginUser = async (req, res, next) => {
 
     try {
         if (await loggingUser.passwordIsValid(req.body.password)) {
-            loggingUser.setSessionId(req.body.session_id);
-            await loggingUser.update({logged_in: true});
+            await loggingUser.update({logged_in: true, session_id: req.body.session_id});
             return res.status(200).json({status: 200, message: `${username} logged succesfully`});
         } else {
             return res.status(404).json({status: 404, message: `Invalid password for ${username}`});

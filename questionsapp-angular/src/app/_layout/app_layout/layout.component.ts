@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { UserService } from "../../services/user.service";
 import User from '../../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
+import { LoginComponent } from "../../login/login.component";
 
 @Component({
     selector: 'app-layout',
@@ -16,22 +17,26 @@ export class LayoutComponent implements OnInit {
     ) {}
 
     public newUser: User = new User();
-    loggedUser: User = null;
+    static loggedUser: User = null;
 
     ngOnInit(): void{
         const session_id = this.cookieService.get('session_id');
+        if (!session_id) return;
         this.userService.getUser(session_id)
         .subscribe((res)=>{
-            this.loggedUser = res;
+            LayoutComponent.loggedUser = res;
         })
     }
 
     logout() {
-        if (!this.loggedUser) return;
-        this.userService.logoutUser(this.loggedUser.username)
+        if (!LayoutComponent.loggedUser) return;
+        this.userService.logoutUser(LayoutComponent.loggedUser.username)
         .subscribe(res=>{
-            this.loggedUser = null;
-            console.log(res);
+            LayoutComponent.loggedUser = null;
         });
+    }
+
+    get userIsLogged() {
+        return !!(LayoutComponent.loggedUser);
     }
 }

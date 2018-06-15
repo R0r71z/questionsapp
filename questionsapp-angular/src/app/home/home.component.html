@@ -1,1 +1,26 @@
-test
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="questions" *ngIf="questionList">
+            <h3>Current Questions</h3>
+
+            <div class="question" *ngFor="let question of questionList">
+                <button class="accordion" (click)="togglePanel($event)">{{question.title}}</button>
+                <div class="panel">
+                    <p class="p-3 mb-2 bg-dark text-white">{{question.description}}</p>
+                    <button class="accordion" (click)="togglePanel($event)">View Answers</button>
+                    <div class="panel answers">
+                        <p class="p-2 mb-2 bg-secondary text-white">{{question.description}}</p>
+                    </div>
+                    <form>
+                        <div class="form-group d-flex">
+                            <textarea placeholder="Give your answer" class="form-control" rows="3"></textarea>
+                            <button type="submit" class="btn btn-primary mb-2" (click)="sendAnswer($event, question)">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cold-md-2"></div>
+</div>
