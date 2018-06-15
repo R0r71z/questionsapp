@@ -1,16 +1,21 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <div class="questions" *ngIf="questionList">
+        <div class="questions" *ngIf="!!questionList">
             <h3>Current Questions</h3>
 
             <div class="question" *ngFor="let question of questionList">
                 <button class="accordion" (click)="togglePanel($event)">{{question.title}}</button>
                 <div class="panel">
                     <p class="p-3 mb-2 bg-dark text-white">{{question.description}}</p>
-                    <button class="accordion" (click)="togglePanel($event)">View Answers</button>
+                    <button class="accordion" (click)="togglePanel($event)" *ngIf="question.answers.length">View Answers</button>
                     <div class="panel answers">
-                        <p class="p-2 mb-2 bg-secondary text-white">{{question.description}}</p>
+                        <div class="answer p-2 mb-2 bg-secondary text-white" *ngFor="let answer of question.answers">
+                            <p>{{answer.content}}</p>
+                            <div class="date" style="color:black">
+                                {{answer.updated_at | date}}
+                            </div>
+                        </div>
                     </div>
                     <form>
                         <div class="form-group d-flex">

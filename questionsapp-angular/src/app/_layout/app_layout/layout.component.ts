@@ -25,7 +25,7 @@ export class LayoutComponent implements OnInit {
         this.userService.getUser(session_id)
         .subscribe((res)=>{
             LayoutComponent.loggedUser = res;
-        })
+        });
     }
 
     logout() {

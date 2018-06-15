@@ -1,4 +1,5 @@
 const Question = require('../models/Question');
+const Answer = require('../models/Answer');
 const {error} = require('../helper');
 
 exports.getQuestions = async (query, page, limit) => {
@@ -15,6 +16,14 @@ exports.getQuestions = async (query, page, limit) => {
         error('Failed to fetch the questions.');
     }
 };
+
+exports.getQuestion = async (id) => {
+    try {
+        return await Question.findById(id);
+    } catch (e) {
+        error(e.message);
+    }
+}
 
 exports.createQuestion = async (questionObject) => {
     const newQuestion = new Question({
@@ -44,3 +53,41 @@ exports.updateQuestion = async (questionObject) => {
         error('Failed to save Question object.');
     }
 };
+
+exports.addAnswer = async (answerObject) => {
+    const newAnswer = new Answer(answerObject);
+
+    try {
+        const question = await Question.findById(answerObject.questionId);
+        question.answers.push(newAnswer);
+        await question.save();
+        return await newAnswer.save();
+    } catch(e) {
+        error(e.message);
+    }
+}
+
+exports.getAnswers = async (id) => {
+    try {
+        return await Answer.paginate({questionId: id});
+    } catch(e) {
+        error(e.message);
+    }
+    
+    
+}
+
+exports.removeAnswer = async (query) => {
+    query.deleted = true;
+    query.published = false;
+    try {
+        const updated = await Answer.findOneAndUpdate(query);
+        const question = await Question.findById(updated.questionId);
+
+        question.answers = question.answers.filter(answer => updated._id.toString() !== answer._id.toString());
+        await question.save();
+        return updated;
+    } catch(e) {
+        error(e.message);
+    }
+}

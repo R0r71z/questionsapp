@@ -54,7 +54,8 @@ exports.removeQuestion = async (req, res, next) => {
         const removedQuestion = await questionService.updateQuestion({
             id,
             active: false,
-            deleted: true
+            deleted: true,
+            answers: [],
         });
         return res.status(200).json({status: 200, data: removedQuestion});
     } catch (e) {
@@ -63,12 +64,26 @@ exports.removeQuestion = async (req, res, next) => {
 }
 
 exports.addAnswer = async (req, res, next) => {
-    console.log(req.body);
-    return res.status(200).json({status: 200, data: {}});
-}
+    const answerObj = {...req.body};
+    delete answerObj._id;
+
+    try {
+        const createdAnswer = await questionService.addAnswer(answerObj);
+        return res.status(201).json({status: 201, data: createdAnswer});
+    } catch(e) {
+        return res.status(400).json({status: 400, message: e.message});
+    }
+};
 
 exports.removeAnswer = async (req, res, next) => {
     const id = req.params.id;
-    console.log(id);
-    return res.status(200).json({status: 200});
+    try {
+        const removedAnswer = await questionService.removeAnswer({
+            id
+        });
+
+        return res.status(200).json({status: 200, data: removedAnswer});
+    } catch (e) {
+        return res.status(400).json({status: 400, message: e.message});
+    }
 }
