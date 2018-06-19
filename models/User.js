@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'),
       bluebird = require('bluebird'),
-      bcrypt = bluebird.promisifyAll(require("bcrypt")),
-      constants = require('../constants');
+      bcrypt = bluebird.promisifyAll(require("bcrypt"));
+
 
 const userSchema = new mongoose.Schema({
     username: {type: String, required: true, index: {unique: true}},
@@ -17,7 +17,7 @@ userSchema.pre('save', async function(next) {
     }
 
     try {
-        const hash = await bcrypt.hashAsync(`${this.password}/${constants.salt}`, 16.5);
+        const hash = await bcrypt.hashAsync(`${this.password}/${process.env.SALT}`, 16.5);
         this.password = hash;
         next();
     } catch (err) {
@@ -28,7 +28,7 @@ userSchema.pre('save', async function(next) {
 
 userSchema.methods.passwordIsValid = async function(password) {
    try {
-       return await bcrypt.compareAsync(`${password}/${constants.salt}`, this.password);
+       return await bcrypt.compareAsync(`${password}/${process.env.SALT}`, this.password);
    }
    catch (err) {
        throw err;

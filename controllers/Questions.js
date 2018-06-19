@@ -6,9 +6,9 @@ exports.getQuestions = async (req, res, next) => {
 
     try {
         let questions = await questionService.getQuestions({}, page, limit);
-        return res.status(200).json({status: 200, data: questions});
+        return res.status(200).json({data: questions});
     } catch(e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 };
 
@@ -20,14 +20,14 @@ exports.createQuestion = async (req, res, next) => {
 
     try {
         const createdQuestion = await questionService.createQuestion(questionObj);
-        return res.status(201).json({status: 201, data: createdQuestion});
+        return res.status(201).json({data: createdQuestion});
     } catch(e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 };
 
 exports.updateQuestion = async (req, res, next) => {
-    if(!req.body._id) return res.status(400).json({status: 400, message: "Id must be present"});
+    if(!req.body._id) return res.status(400).json({message: "Id must be present"});
 
     const id = req.body._id;
 
@@ -41,9 +41,9 @@ exports.updateQuestion = async (req, res, next) => {
 
     try {
         const updatedQuestion = await questionService.updateQuestion(questionObj);
-        return res.status(200).json({status: 200, data: updatedQuestion});
+        return res.status(200).json({data: updatedQuestion});
     } catch(e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 }
 
@@ -57,9 +57,9 @@ exports.removeQuestion = async (req, res, next) => {
             deleted: true,
             answers: [],
         });
-        return res.status(200).json({status: 200, data: removedQuestion});
+        return res.status(200).json({data: removedQuestion});
     } catch (e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 }
 
@@ -69,9 +69,9 @@ exports.addAnswer = async (req, res, next) => {
 
     try {
         const createdAnswer = await questionService.addAnswer(answerObj);
-        return res.status(201).json({status: 201, data: createdAnswer});
+        return res.status(201).json({data: createdAnswer});
     } catch(e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 };
 
@@ -82,8 +82,8 @@ exports.removeAnswer = async (req, res, next) => {
             id
         });
 
-        return res.status(200).json({status: 200, data: removedAnswer});
+        return res.status(200).json({data: removedAnswer});
     } catch (e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 }

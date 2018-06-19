@@ -78,10 +78,13 @@ exports.getAnswers = async (id) => {
 }
 
 exports.removeAnswer = async (query) => {
-    query.deleted = true;
-    query.published = false;
+    const update = {
+        deleted: true,
+        published: false
+    }
     try {
-        const updated = await Answer.findOneAndUpdate(query);
+        const updated = await Answer.findById(query.id);
+        await updated.update(update);
         const question = await Question.findById(updated.questionId);
 
         question.answers = question.answers.filter(answer => updated._id.toString() !== answer._id.toString());
