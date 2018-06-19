@@ -10,10 +10,13 @@
             <th class="h">Title</th>
             <th class="h">Description</th>
             <th class="h">Date</th>
+            <th class="h">Manage</th>
+            <th class="h">Answers</th>
+
         </tr>
         </thead>
         <tbody>
-        <tr class="question" (dblclick)="editQuestion(question)" *ngFor="let question of questionList">
+        <tr class="question" *ngFor="let question of questionList">
 
             <ng-container *ngIf="!editQuestions.includes(question); else editQT">
             <td>{{question.title}}</td>
@@ -40,7 +43,28 @@
                 <i  class="fa fa-trash"></i>
                 </button>
             </td>
-
+            <button class="accordion" (click)="togglePanel($event)" *ngIf="question.answers.length">Show Answers</button>
+            <div class="panel">
+                <table class="table">
+                    <thead class="h">
+                    <tr class="h">
+                        <th class="h">Content</th>
+                        <th class="h">Date</th>
+                        <th class="h">Manage</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="answer" *ngFor="let answer of question.answers">
+                            <td>{{answer.content}}</td>
+                            <td>{{answer.updated_at | date}}</td>
+    
+                            <button class="btn btn-danger" (click)="deleteAnswer(question, answer)" style="margin-left: 25%">
+                                <i  class="fa fa-trash"></i>
+                            </button>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>    
         </tr>
         </tbody>
     </table>

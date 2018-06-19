@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import Question from '../models/question.model';
 import Answer from '../models/answer.model';
 import { QuestionService } from '../services/question.service';
+import { LayoutComponent } from "../_layout/app_layout/layout.component";
 
 @Component({
     selector: 'app-home',
@@ -20,7 +21,8 @@ export class HomeComponent implements OnInit {
         this.questionService.getQuestions()
         .subscribe(questions => {
             this.questionList = questions;
-        })
+            console.log(this.questionList);
+        });
     }
 
     togglePanel(event) {
@@ -38,6 +40,8 @@ export class HomeComponent implements OnInit {
         newAnswer.content = answerContent;
         newAnswer.questionId = question._id;
 
+        event.target.parentElement.querySelector('textarea').value = "";
+
         return this.questionService.addAnswer(question._id, newAnswer)
         .subscribe(res=>{
             this.questionList[this.questionList.indexOf(question)].answers.push(res.data);
@@ -45,4 +49,5 @@ export class HomeComponent implements OnInit {
             console.log(err);
         });
     }
+
 }

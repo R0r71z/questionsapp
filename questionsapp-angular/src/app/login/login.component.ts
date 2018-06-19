@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../services/user.service';
-import {randomString} from 'random-string';
 import { LayoutComponent } from '../_layout/app_layout/layout.component';
 import 'bootstrap-notify';
 import $ from 'jquery';

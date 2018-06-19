@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { UserService } from "../../services/user.service";
 import User from '../../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
@@ -25,7 +25,7 @@ export class LayoutComponent implements OnInit {
         this.userService.getUser(session_id)
         .subscribe((res)=>{
             LayoutComponent.loggedUser = res;
-        })
+        });
     }
 
     logout() {

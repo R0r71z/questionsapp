@@ -2,12 +2,12 @@ const userService = require('../services/User');
 
 exports.getUser = async (req, res, next) => {
     const query = req.query;
-    if (!Object.keys(query).length) return res.status(404).json({status: 404, message: 'Invalid request'});
+    if (!Object.keys(query).length) return res.status(404).json({message: 'Invalid request'});
     try {
         const user = await userService.getUser(query);
-        return res.status(200).json({status: 200, data: user});
+        return res.status(200).json({data: user});
     } catch(e) {
-        return res.status(404).json({status: 404, message: e.message});
+        return res.status(404).json({message: e.message});
     }
 }
 
@@ -20,9 +20,9 @@ exports.createUser = async (req, res, next) => {
 
     try {
         const createdUser = await userService.createUser(userObj);
-        return res.status(200).json({status: 200, data: createdUser});
+        return res.status(200).json({data: createdUser});
     } catch(e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 }
 
@@ -30,17 +30,17 @@ exports.loginUser = async (req, res, next) => {
     const username = req.body.username;
     const loggingUser = await userService.getUser({username});
 
-    if (!loggingUser) return res.status(400).json({status: 400, message: `Invalid user`});
+    if (!loggingUser) return res.status(400).json({message: `Invalid user`});
 
     try {
         if (await loggingUser.passwordIsValid(req.body.password)) {
             await loggingUser.update({logged_in: true, session_id: req.body.session_id});
-            return res.status(200).json({status: 200, message: `${username} logged succesfully`});
+            return res.status(200).json({message: `${username} logged succesfully`});
         } else {
-            return res.status(404).json({status: 404, message: `Invalid password for ${username}`});
+            return res.status(404).json({message: `Invalid password for ${username}`});
         }
     } catch (e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 }
 
@@ -53,9 +53,9 @@ exports.logoutUser = async (req, res, next) => {
         loggingUser.logged_in = false;
         await loggingUser.save();
 
-        return res.status(200).json({status: 200, message: 'Log out succesful'});
+        return res.status(200).json({message: 'Log out succesful'});
     } catch(e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 }
 
@@ -65,8 +65,8 @@ exports.deleteUser = async (req, res, next) => {
     
     try {
         userService.deleteUser(id);
-        return res.status(200).json({status: 200, message: 'User deleted succesfully'});
+        return res.status(200).json({message: 'User deleted succesfully'});
     } catch(e) {
-        return res.status(400).json({status: 400, message: e.message});
+        return res.status(400).json({message: e.message});
     }
 }
