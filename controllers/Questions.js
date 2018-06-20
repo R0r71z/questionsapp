@@ -54,8 +54,7 @@ exports.removeQuestion = async (req, res, next) => {
         const removedQuestion = await questionService.updateQuestion({
             id,
             active: false,
-            deleted: true,
-            answers: [],
+            deleted: true
         });
         return res.status(200).json({data: removedQuestion});
     } catch (e) {

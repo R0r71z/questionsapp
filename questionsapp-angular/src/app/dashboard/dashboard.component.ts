@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit{
 
   public newQuestion: Question = new Question();
 
-  questionList: Question[];
+  questionList: Question[] = [];
   editQuestions: Question[] = [];
 
   ngOnInit(): void {
@@ -43,44 +43,42 @@ export class DashboardComponent implements OnInit{
     .subscribe((res)=>{
       this.questionList.push(res.data)
       this.newQuestion = new Question()
-    })
+      LayoutComponent.generateNotification('success', 'Success!', 'Your question was created succesfully');
+    }, error => {
+      console.log(error);
+      LayoutComponent.generateNotification('danger', 'Something went wrong', 'Your question was not created');
+    });
   }
 
   editQuestion(question: Question) {
     if (this.questionList.includes(question)) {
-      if (!this.editQuestions.includes(question)) {
-        this.editQuestions.push(question)
-      } else {
-        this.editQuestions.splice(this.editQuestions.indexOf(question), 1)
-        this.questionService.editQuestion(question).subscribe(res => {
-          console.log('Update succesful')
-        }, err => {
-          this.editQuestion(question)
-          console.log('Update unsuccesful')
-        })
-      }
+      if (this.editQuestions.includes(question)) return;
+      this.editQuestions.push(question);
     }
   }
 
   doneQuestion(question: Question) {
+    if (!this.editQuestions.includes(question)) return;
     this.questionService.editQuestion(question)
     .subscribe((res)=>{
       this.editQuestions.splice(this.editQuestions.indexOf(question), 1)
-      console.log('Update succesful')
+      LayoutComponent.generateNotification('success', 'Success!', 'Your question was edited succesfully');
     }, err => {
       this.editQuestion(question)
-      console.log('Update unsuccesful')
+      LayoutComponent.generateNotification('danger', 'Something went wrong', 'Your question was not edited');
     })
   }
 
   submitQuestion(event, question: Question) {
-    if (event.keyCode == 13) this.editQuestion(question)
+    if (event.keyCode == 13) this.doneQuestion(question)
   }
 
   deleteQuestion(question: Question) {
-    this.questionService.deleteQuestion(question._id).subscribe(res=>{
-      this.questionList.splice(this.questionList.indexOf(question),1);
-    })
+    if (confirm(`This question ${question.answers.length ? 'and all its answers' : ''} will be removed.`)) {
+      this.questionService.deleteQuestion(question._id).subscribe(res=>{
+        this.questionList.splice(this.questionList.indexOf(question),1);
+      })
+    }
   }
 
   togglePanel(event) {
@@ -93,8 +91,10 @@ export class DashboardComponent implements OnInit{
   }
 
   deleteAnswer(question, answer) {
-    this.questionService.removeAnswer(answer._id).subscribe(res=>{
-      question.answers.splice(question.answers.indexOf(answer),1);
-    })
+    if (confirm('This answer will be removed from this question.')) {
+      this.questionService.removeAnswer(answer._id).subscribe(res=>{
+        question.answers.splice(question.answers.indexOf(answer),1);
+      })
+    }
   }
 }

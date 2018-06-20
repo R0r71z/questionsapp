@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../services/user.service';
 import { LayoutComponent } from '../_layout/app_layout/layout.component';
-import 'bootstrap-notify';
-import $ from 'jquery';
 
 @Component({
     selector: 'app-login',
@@ -59,27 +57,7 @@ export class LoginComponent implements OnInit {
             window.location.href = '';
         }, err=>{
             cancelLoading();
-            $.notify({
-                icon: 'glyphicon glyphicon-warning-sign',
-                title: '<strong>Something went wrong<br></strong>',
-                message: 'Invalid username or password',
-            },{
-                element: 'body',
-                type: "danger",
-                placement: {
-                    from: "top",
-                    align: "right"
-                },
-                offset: 20,
-                spacing: 10,
-                z_index: 1031,
-                delay: 5000,
-                timer: 1000,
-                animate: {
-                    enter: 'animated fadeInDown',
-                    exit: 'animated fadeOutUp'
-                }
-            });
+            LayoutComponent.generateNotification('danger', 'Something went wrong', 'Invalid username or password');
         });
     }
 

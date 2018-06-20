@@ -8,7 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class UserService {
-    api_url = 'http://localhost:3000/users';
+    api_url = 'https://questions-app-api.herokuapp.com/users';
 
     constructor(
         private http: HttpClient,
