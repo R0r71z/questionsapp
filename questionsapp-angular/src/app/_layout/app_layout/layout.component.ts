@@ -3,6 +3,8 @@ import { UserService } from "../../services/user.service";
 import User from '../../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginComponent } from "../../login/login.component";
+import 'bootstrap-notify';
+import $ from 'jquery';
 
 @Component({
     selector: 'app-layout',
@@ -38,5 +40,29 @@ export class LayoutComponent implements OnInit {
 
     get userIsLogged() {
         return !!(LayoutComponent.loggedUser);
+    }
+
+    static generateNotification(type, title, message) {
+        $.notify({
+            icon: 'glyphicon glyphicon-warning-sign',
+            title: `<strong>${title}</strong><br>`,
+            message,
+        },{
+            element: 'body',
+            type,
+            placement: {
+                from: "top",
+                align: "right"
+            },
+            offset: 20,
+            spacing: 10,
+            z_index: 1031,
+            delay: 5000,
+            timer: 1000,
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
     }
 }

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class QuestionService {
 
-  api_url = 'http://localhost:3000';
+  api_url = 'https://questions-app-api.herokuapp.com';
   questionUrl = `${this.api_url}/questions`;
 
   constructor(

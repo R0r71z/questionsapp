@@ -15,13 +15,12 @@ export class HomeComponent implements OnInit {
         private questionService: QuestionService
     ){}
 
-    questionList: Question[];
+    questionList: Question[] = [];
 
     ngOnInit(): void {
         this.questionService.getQuestions()
         .subscribe(questions => {
             this.questionList = questions;
-            console.log(this.questionList);
         });
     }
 
@@ -37,7 +36,7 @@ export class HomeComponent implements OnInit {
     sendAnswer(event, question) {
         let newAnswer = new Answer();
         const answerContent = event.target.parentElement.querySelector('textarea').value;
-        newAnswer.content = answerContent;
+        newAnswer.content = answerContent.replace(/(<([^>]+)>)/ig,"");
         newAnswer.questionId = question._id;
 
         event.target.parentElement.querySelector('textarea').value = "";
@@ -45,9 +44,20 @@ export class HomeComponent implements OnInit {
         return this.questionService.addAnswer(question._id, newAnswer)
         .subscribe(res=>{
             this.questionList[this.questionList.indexOf(question)].answers.push(res.data);
+            LayoutComponent.generateNotification('success', 'Success', 'Your answer was sent correctly.');
         }, err => {
             console.log(err);
+            LayoutComponent.generateNotification('danger', 'Something went wrong', 'Your answer was not sent correctly');
         });
     }
 
+    checkValidContent(event) {
+        const _this = event.target;
+        const button = _this.parentElement.querySelector('button');
+
+        if (!!_this.value)
+            button.classList.remove('d-none')
+        else 
+            button.classList.add('d-none')
+    }
 }

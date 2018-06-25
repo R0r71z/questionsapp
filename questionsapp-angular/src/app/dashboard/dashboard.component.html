@@ -2,7 +2,7 @@
 <div class="col-md-2"></div>
 <div class="col-md-8">
 
-    <div class="questions" *ngIf="questionList">
+    <div class="questions" *ngIf="questionList.length">
         <h2>Active Questions</h2>
     <table class="table">
         <thead class="h">
@@ -44,7 +44,7 @@
                 </button>
             </td>
             <button class="accordion" (click)="togglePanel($event)" *ngIf="question.answers.length">Show Answers</button>
-            <div class="panel">
+            <div class="panel" *ngIf="question.answers.length">
                 <table class="table">
                     <thead class="h">
                     <tr class="h">
@@ -69,25 +69,30 @@
         </tbody>
     </table>
     </div>
-
-    <form>
-    <h2>Create new</h2>
-    <div class="form-row">
-
-        <div class="col-md-5">
-        <input type="text" name="title" id="title" [(ngModel)]="newQuestion.title" placeholder="Title" class="form-control">
-        </div>
-        <div class="col-md-5">
-        <input name="description" id="description" [(ngModel)]="newQuestion.description" placeholder="Description" class="form-control"
-            id="description">
-        </div>
-        <div class="col-md-2">
-        <button type="submit" class="btn btn-primary" (click)="create()">Add</button>
-        </div>
-    </div>
-    </form>
 </div>
 <div class="col-md-2">
-    
 </div>
-</div>  
+</div>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <form>
+            <h2>Create New Question</h2>
+            <div class="form-row">
+        
+                <div class="col-md-5">
+                <input type="text" name="title" id="title" [(ngModel)]="newQuestion.title" placeholder="Title" class="form-control">
+                </div>
+                <div class="col-md-5">
+                <input name="description" id="description" [(ngModel)]="newQuestion.description" placeholder="Description" class="form-control"
+                    id="description">
+                </div>
+                <div class="col-md-2">
+                <button type="submit" class="btn btn-primary" (click)="create()">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>

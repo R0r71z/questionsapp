@@ -44,8 +44,23 @@ exports.updateQuestion = async (questionObject) => {
 
     if (questionObject.title) oldQuestion.title = questionObject.title;
     if (questionObject.description) oldQuestion.description = questionObject.description;
-    if (questionObject.active) oldQuestion.active = questionObject.active;
-    if (questionObject.deleted) oldQuestion.deleted = questionObject.deleted;
+    oldQuestion.active = questionObject.active;
+    if (Object.keys(questionObject).indexOf('deleted') != -1) {
+        oldQuestion.deleted = questionObject.deleted;
+        if (oldQuestion.answers.length) {
+            new Promise((resolve, reject) => {
+                resolve();
+            }).then(()=>{
+                oldQuestion.answers.forEach(ans=>{
+                    return exports.removeAnswer({id: ans._id});
+                });
+            }).then(()=>{
+                oldQuestion.answers = [];
+            }).catch(e=>{
+                error(e.message);
+            });
+        }
+    }
 
     try {
         return await oldQuestion.save();
